@@ -3,8 +3,34 @@ import 'package:flutter/material.dart';
 import 'package:gpay_clone/Gpay_clone/circle_people.dart';
 import 'package:gpay_clone/constants.dart';
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  bool seeMore = false;
+
+  List people = [
+    {"contact": "Apple"},
+    {"contact": "Boy"},
+    {"contact": "Cat"},
+    {"contact": "Dog"},
+    {"contact": "Eye"},
+    {"contact": "Fish"},
+    {"contact": "Girl"},
+    {"contact": "Hen"},
+    {"contact": "Ice"},
+    {"contact": "Jug"},
+    {"contact": "Kite"},
+    {"contact": "Lion"},
+    {"contact": "Man"},
+    {"contact": "Nest"},
+    {"contact": "Owl"},
+    {"contact": "Less"},
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +116,6 @@ class MyHomePage extends StatelessWidget {
               ),
             ),
             Container(
-              // height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
                 color: Colors.white,
@@ -296,64 +321,178 @@ class MyHomePage extends StatelessWidget {
                       ),
                     ),
                   ),
+                  GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 4,
+                      childAspectRatio: 1,
+                    ),
+                    itemCount: seeMore == true
+                        ? people.length
+                        : people.length < 4
+                            ? people.length
+                            : 8,
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          Container(
+                            height: 55,
+                            width: 55,
+                            decoration: BoxDecoration(
+                              color: Colors.primaries[index],
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            // color of grid items
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                seeMore == false
+                                    ? index == 7
+                                        ? GestureDetector(
+                                            onTap: () {
+                                              if (index == 7) {
+                                                setState(() {
+                                                  seeMore = !seeMore;
+                                                });
+                                              }
+                                            },
+                                            child: Container(
+                                                height: 55,
+                                                width: 55,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.orange,
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
+                                                ),
+                                                child: seeMore == false
+                                                    ? Icon(seeMore
+                                                        ? Icons.expand_less
+                                                        : Icons.expand_more)
+                                                    : Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                left: 23,
+                                                                top: 20),
+                                                        child: Text(
+                                                          people[index]
+                                                                  ["contact"]
+                                                              .toString()
+                                                              .substring(0, 1),
+                                                          style: textStyle,
+                                                        ),
+                                                      )),
+                                          )
+                                        : Text(
+                                            people[index]["contact"]
+                                                .toString()
+                                                .substring(0, 1),
+                                            style: textStyle,
+                                          )
+                                    : index == people.length-1
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          if (index == people.length-1) {
+                                            setState(() {
+                                              seeMore = !seeMore;
+                                            });
+                                          }
+                                        },
+                                        child: Container(
+                                            height: 55,
+                                            width: 55,
+                                            decoration: BoxDecoration(
+                                              color: Colors.orange,
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                            ),
+                                            child: seeMore == true
+                                                ? Icon(seeMore
+                                                    ? Icons.expand_less
+                                                    : Icons.expand_more)
+                                                : Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 23, top: 20),
+                                                    child: Text(
+                                                      people[index]["contact"]
+                                                          .toString()
+                                                          .substring(0, 1),
+                                                      style: textStyle,
+                                                    ),
+                                                  )),
+                                      )
+                                    : Text(
+                                        people[index]["contact"]
+                                            .toString()
+                                            .substring(0, 1),
+                                        style: textStyle,
+                                      )
+                                // color of grid items
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Text(
+                              index == 7
+                                  ? seeMore == false
+                                      ? "More"
+                                      : people[index]["contact"]
+                                  :  index == people.length-1
+                                  ? seeMore == true
+                                      ? "Less"
+                                      : people[index]["contact"]
+                                 : people[index]["contact"],
+                              style: textStyle)
+                        ],
+                      );
+                    },
+                  ),
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      CirclePeople(
-                        peopleImage: AssetImage('assets/images/elon.png'),
-                        peopleName: 'Elon',
-                      ),
-                      CirclePeople(
-                        peopleImage: AssetImage('assets/images/mark.jpeg'),
-                        peopleName: 'Mark',
-                      ),
-                      CirclePeople(
-                        peopleImage: AssetImage('assets/images/sundar.jpg'),
-                        peopleName: 'Sundar',
-                      ),
-                      CirclePeople(
-                        peopleImage: AssetImage('assets/images/mukesh.jpeg'),
-                        peopleName: 'Mukesh',
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const CirclePeople(
-                        peopleImage: AssetImage('assets/images/donald.jpg'),
-                        peopleName: 'Donald',
-                      ),
-                      const CirclePeople(
-                        peopleImage: AssetImage('assets/images/ratan.jpg'),
-                        peopleName: 'Ratan',
-                      ),
-                      const CirclePeople(
-                        peopleImage: AssetImage('assets/images/narendra.jpg'),
-                        peopleName: 'Narendra',
-                      ),
+                      // const CirclePeople(
+                      //   peopleImage: AssetImage('assets/images/donald.jpg'),
+                      //   peopleName: 'Donald',
+                      // ),
+                      // const CirclePeople(
+                      //   peopleImage: AssetImage('assets/images/ratan.jpg'),
+                      //   peopleName: 'Ratan',
+                      // ),
+                      // const CirclePeople(
+                      //   peopleImage: AssetImage('assets/images/narendra.jpg'),
+                      //   peopleName: 'Narendra',
+                      // ),
                       Column(
                         children: [
-                          Container(
-                            margin: const EdgeInsets.symmetric(
-                              horizontal: 15.0,
-                              vertical: 10.0,
-                            ),
-                            height: 60.0,
-                            width: 60.0,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.grey,
-                              ),
-                              borderRadius: BorderRadius.circular(50.0),
-                            ),
-                            child: const Icon(
-                              Icons.keyboard_arrow_down_outlined,
-                              size: 50.0,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          const Text('More'),
+                          // Container(
+                          //   margin: const EdgeInsets.symmetric(
+                          //     horizontal: 15.0,
+                          //     vertical: 10.0,
+                          //   ),
+                          //   height: 60.0,
+                          //   width: 60.0,
+                          //   decoration: BoxDecoration(
+                          //     border: Border.all(
+                          //       color: Colors.grey,
+                          //     ),
+                          //     borderRadius: BorderRadius.circular(50.0),
+                          //   ),
+                          //   child: const Icon(
+                          //     Icons.keyboard_arrow_down_outlined,
+                          //     size: 50.0,
+                          //     color: Colors.grey,
+                          //   ),
+                          // ),
+                          // const Text('More'),
                         ],
                       ),
                     ],

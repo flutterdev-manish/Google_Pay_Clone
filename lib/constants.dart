@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+class Contact {
+  final String name;
+
+  Contact(this.name);
+}
+
 var iconClr = const Color(0xff3457D5);
 
 var textStyle = const TextStyle(
